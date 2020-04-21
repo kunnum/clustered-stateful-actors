@@ -3,7 +3,7 @@ package com.example
 import akka.actor.typed.scaladsl.AskPattern._
 import akka.actor.typed.{ActorRef, ActorSystem}
 import akka.cluster.sharding.typed.HashCodeNoEnvelopeMessageExtractor
-import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity}
+import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityRef}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
@@ -21,22 +21,18 @@ class ShopingCartRoute(val system: ActorSystem[_]) {
   implicit val cartFormat = jsonFormat1(State)
   implicit val ec = system.executionContext
 
-  val messageExtractor =
-    new HashCodeNoEnvelopeMessageExtractor[ShoppingCartActor.Command](numberOfShards = 30) {
-      override def entityId(message: ShoppingCartActor.Command): String = message.cartId()
-    }
+  val sharding = ClusterSharding(system)
+  sharding.init(Entity(TypeKey)(createBehavior = entityContext => ShoppingCartActor(system, entityContext.entityId)))
 
   val routes: Route = path("cart"/Segment) { cartId =>
 
-    val shardRegion: ActorRef[ShoppingCartActor.Command] = ClusterSharding(system).init(
-      Entity(ShoppingCartActor.TypeKey) { _ => ShoppingCartActor(cartId)}.withMessageExtractor(messageExtractor)
-    )
+    val entityRef: EntityRef[ShoppingCartActor.Command] = sharding.entityRefFor(TypeKey, cartId)
 
-    def add(id: String, quantity: Int): Future[State] = shardRegion ? (ShoppingCartActor.Add(cartId, id, quantity, _))
-    def remove(id: String): Future[State] = shardRegion ? (ShoppingCartActor.Remove(cartId, id, _))
-    def view(): Future[State] = shardRegion ? (ShoppingCartActor.View(cartId, _))
+    def add(id: String, quantity: Int): Future[State] = entityRef ? (ShoppingCartActor.Add(cartId, id, quantity, _))
+    def remove(id: String): Future[State] = entityRef ? (ShoppingCartActor.Remove(cartId, id, _))
+    def view(): Future[State] = entityRef ? (ShoppingCartActor.View(cartId, _))
 
-    system.log.info("HTTP request received")
+    system.log.info("***************** HTTP request received " + cartId)
 
     concat(
       pathEnd {

@@ -1,7 +1,6 @@
 package com.example
 
-import akka.actor.typed.ActorRef
-import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.{ActorRef, ActorSystem}
 import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
@@ -21,10 +20,10 @@ object ShoppingCartActor {
 
   case class State(items: Map[String, Int] = Map.empty) extends CborSerializable
 
-  def apply(cartId: String)  = Behaviors.setup[Command] { context =>
+  def apply(system: ActorSystem[_], cartId: String): EventSourcedBehavior[Command, Event, State]  = {
 
     def commandHandler(state: State, command: Command): Effect[Event, State] = {
-      context.log.info("Command received for cart " + command.cartId)
+      system.log.info("***************** Command received " + command.cartId)
       command match {
         case Add(_, id, quantity, replyTo) => Effect.persist(Added(id, quantity)).thenRun(replyTo ! _)
         case Remove(_, id, replyTo) => Effect.persist(Removed(id)).thenRun(replyTo ! _)
