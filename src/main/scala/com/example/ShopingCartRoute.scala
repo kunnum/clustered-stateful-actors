@@ -23,19 +23,21 @@ class ShopingCartRoute(val system: ActorSystem[_]) {
 
   val messageExtractor =
     new HashCodeNoEnvelopeMessageExtractor[ShoppingCartActor.Command](numberOfShards = 30) {
-      override def entityId(message: ShoppingCartActor.Command): String = "Cart"
+      override def entityId(message: ShoppingCartActor.Command): String = message.cartId()
     }
 
-  val shardRegion: ActorRef[ShoppingCartActor.Command] = ClusterSharding(system).init(
-      Entity(ShoppingCartActor.TypeKey) { _ => ShoppingCartActor()}.withMessageExtractor(messageExtractor)
-  )
+  val routes: Route = path("cart"/Segment) { cartId =>
 
-  def add(id: String, quantity: Int): Future[State] = shardRegion ? (ShoppingCartActor.Add(id, quantity, _))
-  def remove(id: String): Future[State] = shardRegion ? (ShoppingCartActor.Remove(id, _))
-  def view(): Future[State] = shardRegion ? (ShoppingCartActor.View(_))
+    val shardRegion: ActorRef[ShoppingCartActor.Command] = ClusterSharding(system).init(
+      Entity(ShoppingCartActor.TypeKey) { _ => ShoppingCartActor(cartId)}.withMessageExtractor(messageExtractor)
+    )
 
+    def add(id: String, quantity: Int): Future[State] = shardRegion ? (ShoppingCartActor.Add(cartId, id, quantity, _))
+    def remove(id: String): Future[State] = shardRegion ? (ShoppingCartActor.Remove(cartId, id, _))
+    def view(): Future[State] = shardRegion ? (ShoppingCartActor.View(cartId, _))
 
-  val routes: Route = pathPrefix("cart") {
+    system.log.info("HTTP request received")
+
     concat(
       pathEnd {
         concat(
