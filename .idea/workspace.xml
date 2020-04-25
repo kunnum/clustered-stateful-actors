@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbfec01a-1161-4762-9aac-e1a8f8248329" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gatling/src/test/resources/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/gatling/src/test/resources/application.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gatling/src/test/scala/com/example/CartScenario.scala" beforeDir="false" afterPath="$PROJECT_DIR$/gatling/src/test/scala/com/example/CartScenario.scala" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,6 +91,7 @@
     </option>
     <option name="modificationStamps">
       <map>
+        <entry key="$PROJECT_DIR$" value="0" />
         <entry key="$PROJECT_DIR$/build.sbt" value="1827041076" />
         <entry key="$PROJECT_DIR$/project/build.properties" value="1026143456" />
       </map>
