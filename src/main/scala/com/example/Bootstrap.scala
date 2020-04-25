@@ -1,23 +1,42 @@
 package com.example
 
-import akka.actor.typed.ActorSystem
+import akka.NotUsed
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.scaladsl.adapter._
+import akka.actor.typed.{ActorSystem, Behavior}
+import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity}
+import akka.cluster.typed.Cluster
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
+import com.example.ShoppingCartActor.TypeKey
 import com.typesafe.config.ConfigFactory
 
+import scala.concurrent.ExecutionContextExecutor
 import scala.util.{Failure, Success}
 
 object Bootstrap extends App {
 
-  val rootBehavior = Behaviors.setup[Nothing] { context =>
+  private object RootBehavior {
 
-    implicit val system = context.system
-    context.spawn(ClusterListener(), "ClusterListener")
-    startHttpServer(new ShopingCartRoute(context.system).routes, context.system)
+    def apply() : Behavior[NotUsed] = Behaviors.setup { context =>
 
-    Behaviors.empty
+      implicit val system = context.system
+      context.spawn(ClusterListener(), "ClusterListener")
+
+      val cluster = Cluster(system)
+      val sharding = ClusterSharding(system)
+      context.log.info(s"starting node with roles: $cluster.selfMember.roles")
+
+      if (cluster.selfMember.hasRole("endpoint")) {
+        implicit val ec: ExecutionContextExecutor = context.system.executionContext
+        val psEntities = sharding.init(Entity(TypeKey)(ctx => ShoppingCartActor(system, ctx.entityId)))
+        startHttpServer(new ShopingCartRoute(psEntities, context.system).routes, context.system)
+      } else if (cluster.selfMember.hasRole("sharded")) {
+        sharding.init(Entity(TypeKey)(entityContext => ShoppingCartActor(system, entityContext.entityId)))
+      }
+
+      Behaviors.empty
+    }
   }
 
   private def startHttpServer(routes: Route, system: ActorSystem[_]): Unit = {
@@ -25,7 +44,7 @@ object Bootstrap extends App {
     implicit val classicSystem: akka.actor.ActorSystem = system.toClassic
     import system.executionContext
 
-    val futureBinding = Http().bindAndHandle(routes, interface = "localhost", 0)
+    val futureBinding = Http().bindAndHandle(routes, interface = "localhost")
     futureBinding.onComplete {
       case Success(binding) =>
         val address = binding.localAddress
@@ -34,11 +53,16 @@ object Bootstrap extends App {
         system.log.error("Failed to bind HTTP endpoint, terminating system", ex)
         system.terminate()
     }
+
   }
 
-  val port = args(0).toInt
-  val config = ConfigFactory.parseString(s"akka.remote.artery.canonical.port=$port").withFallback(ConfigFactory.load())
-  ActorSystem[Nothing](rootBehavior, "shopping-cart", config)
+  def startNode(behavior: Behavior[NotUsed], clusterName: String) = {
+    val system = ActorSystem(behavior, clusterName, appConfig)
+    system.whenTerminated // remove compiler warnings
+  }
 
+  private val appConfig = ConfigFactory.load(sys.props("config.resource"))
+  private val clusterName = appConfig.getString ("clustering.cluster.name")
+  startNode(RootBehavior(), clusterName)
 
 }

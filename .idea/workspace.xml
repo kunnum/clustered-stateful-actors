@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbfec01a-1161-4762-9aac-e1a8f8248329" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/standalone-endpoint.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/standalone-sharded.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/example/Bootstrap.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/example/Bootstrap.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/example/ShopingCartRoute.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/example/ShopingCartRoute.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/example/ShoppingCartActor.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/example/ShoppingCartActor.scala" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,12 +121,15 @@
       <option name="presentableId" value="Default" />
       <updated>1586849914156</updated>
       <workItem from="1586849918135" duration="49627000" />
-      <workItem from="1587471820359" duration="4573000" />
+      <workItem from="1587471820359" duration="16562000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.conf" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -140,9 +146,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/com/example/ShopingCartRoute.scala</url>
-          <line>18</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/src/main/scala/com/example/Bootstrap.scala</url>
+          <line>63</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
