@@ -17,7 +17,7 @@ class ShopingCartRoute(psCommandActor: ActorRef[ShardingEnvelope[ShoppingCartAct
 
   /*
     01. Split roles to endpoint and shard - Done
-    02. Gatlin load test
+    02. Gatlin load test - Done
     03. Docker based deployment
     04. K8 based deployment
     05. NGIX load balancing
