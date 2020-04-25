@@ -35,7 +35,7 @@ class CartScenario extends Simulation {
     )
 
   setUp(
-    scn.inject(rampUsers(100) during (1 minutes))
+    scn.inject(constantConcurrentUsers(10) during (10 seconds))
     .protocols(httpConf)
   )
 }
