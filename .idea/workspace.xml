@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbfec01a-1161-4762-9aac-e1a8f8248329" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/standalone-endpoint.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/standalone-sharded.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/example/Bootstrap.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/example/Bootstrap.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/example/ShopingCartRoute.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/example/ShopingCartRoute.scala" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +17,18 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="SBT">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,7 +76,7 @@
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="root [file:/home/meeraj/Projects/clustered-stateful-actors/]" />
+                <option name="name" value="clustered-stateful-actors [file:/home/meeraj/Projects/clustered-stateful-actors/]" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
@@ -83,7 +90,6 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="3174141672995" />
         <entry key="$PROJECT_DIR$/build.sbt" value="1827041076" />
         <entry key="$PROJECT_DIR$/project/build.properties" value="1026143456" />
       </map>
