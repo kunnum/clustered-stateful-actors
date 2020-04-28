@@ -25,7 +25,7 @@ class ShopingCartRoute(psCommandActor: ActorRef[ShardingEnvelope[ShoppingCartAct
     07. Write article
     08. Look at additional support
     09. CQRS
-    
+    10. Load Balancer
    */
 
   implicit val timeout: Timeout = 5.seconds

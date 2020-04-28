@@ -28,9 +28,14 @@ object Bootstrap extends App {
       context.log.info(s"starting node with roles: $cluster.selfMember.roles")
 
       if (cluster.selfMember.hasRole("endpoint")) {
+
         implicit val ec: ExecutionContextExecutor = context.system.executionContext
         val psEntities = sharding.init(Entity(TypeKey)(ctx => ShoppingCartActor(system, ctx.entityId)))
-        startHttpServer(new ShopingCartRoute(psEntities, context.system).routes, context.system)
+
+        val host = if (cluster.selfMember.hasRole("docker") || cluster.selfMember.hasRole("k8s")) "0.0.0.0"
+        else "localhost"
+        startHttpServer(new ShopingCartRoute(psEntities, context.system).routes, host, context.system)
+
       } else if (cluster.selfMember.hasRole("sharded")) {
         sharding.init(Entity(TypeKey)(entityContext => ShoppingCartActor(system, entityContext.entityId)))
       }
@@ -39,12 +44,12 @@ object Bootstrap extends App {
     }
   }
 
-  private def startHttpServer(routes: Route, system: ActorSystem[_]): Unit = {
+  private def startHttpServer(routes: Route, host: String, system: ActorSystem[_]): Unit = {
 
     implicit val classicSystem: akka.actor.ActorSystem = system.toClassic
     import system.executionContext
 
-    val futureBinding = Http().bindAndHandle(routes, interface = "localhost")
+    val futureBinding = Http().bindAndHandle(routes, interface = host)
     futureBinding.onComplete {
       case Success(binding) =>
         val address = binding.localAddress
@@ -63,6 +68,7 @@ object Bootstrap extends App {
 
   private val appConfig = ConfigFactory.load(sys.props("config.resource"))
   private val clusterName = appConfig.getString ("clustering.cluster.name")
+
   startNode(RootBehavior(), clusterName)
 
 }
