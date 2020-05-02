@@ -11,7 +11,6 @@ services:
       CLUSTER_PORT: 1600
       SEED_PORT_1600_TCP_ADDR: seed
       CASSANDRA_CONTACT_POINT: 192.168.16.2:9042
-      CINNAMON_ELASTIC_HOSTS: elasticsearch:9200
 
   cluster:
     image: shopping-cart:0.1.0
@@ -21,7 +20,6 @@ services:
       CLUSTER_PORT: 0
       SEED_PORT_1600_TCP_ADDR: seed
       CASSANDRA_CONTACT_POINT: 192.168.16.2:9042
-      CINNAMON_ELASTIC_HOSTS: elasticsearch:9200
 
   endpoint:
     image: shopping-cart:0.1.0
@@ -30,7 +28,6 @@ services:
       CLUSTER_IP: endpoint
       CLUSTER_PORT: 0
       SEED_PORT_1600_TCP_ADDR: seed
-      CINNAMON_ELASTIC_HOSTS: elasticsearch:9200
     depends_on:
     - seed
     ports:
