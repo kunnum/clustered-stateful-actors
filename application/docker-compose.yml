@@ -1,29 +1,8 @@
 version: '3'
 services:
-  cassandra-db:
-    hostname: cassandra-1
-    image: cassandra:latest
-    command: /bin/bash -c "sleep 1 && echo ' -- Pausing to let system catch up ... -->' && /docker-entrypoint.sh cassandra -f"
-    ports:
-      - "7000:7000"
-      - "7001:7001"
-      - "7199:7199"
-      - "9042:9042"
-      - "9160:9160"
-    networks:
-    - statepoc
-    healthcheck:
-      test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
-      interval: 15s
-      timeout: 10s
-      retries: 10
 
   seed:
     image: shopping-cart:0.1.0
-    links:
-    - cassandra-db
-    depends_on:
-    - cassandra-db
     expose:
     - 1600
     environment:
@@ -38,10 +17,6 @@ services:
 
   cluster:
     image: shopping-cart:0.1.0
-    links:
-    - cassandra-db
-    depends_on:
-    - cassandra-db
     environment:
       JAVA_OPTS: "-Dconfig.resource=cluster-application-docker.conf"
       CLUSTER_IP: cluster
