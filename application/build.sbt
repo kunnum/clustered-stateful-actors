@@ -22,8 +22,8 @@ def ossDependencies : Seq[ModuleID] = {
     "com.typesafe.akka" %% "akka-cluster-typed" % akkaVersion,
     "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-typed" % akkaVersion,
-    //"com.typesafe.akka" %% "akka-persistence-cassandra" % akkaCassandraVersion,
-    "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
+    "com.typesafe.akka" %% "akka-persistence-cassandra" % akkaCassandraVersion,
+    //"org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
     "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
     "com.typesafe.akka" %% "akka-serialization-jackson" % akkaVersion,
@@ -67,10 +67,10 @@ lazy val root = (project in file("."))
         "-Dcom.sun.management.jmxremote.ssl=false"
     )
   )
-  .settings(
-    dockerBaseImage := "openjdk:8-slim",
-    dockerExposedPorts ++= Seq(9200)
-  )
+  //.settings(
+  //  dockerBaseImage := "openjdk:8-slim",
+  //  dockerExposedPorts ++= Seq(9200)
+  //)
 
 cinnamon := false
 
