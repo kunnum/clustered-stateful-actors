@@ -5,6 +5,14 @@ services:
     image: cassandra:latest
     expose:
       - 9042
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+      - "7199:7199"
+      - "9042:9042"
+      - "9160:9160"
+    networks:
+      - cart
 
   seed:
     image: shopping-cart:0.1.0
@@ -15,6 +23,8 @@ services:
       CLUSTER_IP: seed
       SEED_HOST: seed
       CASSANDRA_CONTACT_POINT: cassandra:9042
+    networks:
+      - cart
 
   cluster:
     image: shopping-cart:0.1.0
@@ -23,6 +33,8 @@ services:
       CLUSTER_IP: cluster
       SEED_HOST: seed
       CASSANDRA_CONTACT_POINT: cassandra:9042
+    networks:
+      - cart
 
   endpoint:
     image: shopping-cart:0.1.0
@@ -35,8 +47,9 @@ services:
     ports:
     - "8082:8082"
     - "8558:8558"
+    networks:
+      - cart
 
 networks:
-  default:
-    external:
-      name: statepoc
+  cart:
+    driver: bridge
