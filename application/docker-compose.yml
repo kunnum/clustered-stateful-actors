@@ -1,6 +1,11 @@
 version: '3'
 services:
 
+  cassandra:
+    image: cassandra:latest
+    expose:
+      - 9042
+
   seed:
     image: shopping-cart:0.1.0
     expose:

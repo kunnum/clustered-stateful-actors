@@ -8,6 +8,8 @@ import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity}
 import akka.cluster.typed.Cluster
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
+import akka.management.cluster.bootstrap.ClusterBootstrap
+import akka.management.scaladsl.AkkaManagement
 import com.example.ShoppingCartActor.TypeKey
 import com.typesafe.config.ConfigFactory
 
@@ -26,6 +28,11 @@ object Bootstrap extends App {
       val cluster = Cluster(system)
       val sharding = ClusterSharding(system)
       context.log.info(s"starting node with roles: $cluster.selfMember.roles")
+
+      if (cluster.selfMember.hasRole("k8s")) {
+        AkkaManagement(system).start()
+        ClusterBootstrap(system).start()
+      }
 
       if (cluster.selfMember.hasRole("endpoint")) {
 
