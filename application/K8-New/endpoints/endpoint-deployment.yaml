@@ -7,26 +7,37 @@ spec:
   selector:
     matchLabels:
       app: endpoint
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: endpoint
         tag: endpoint
+      annotations:
+        prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: endpoints-sa
       containers:
       - env:
+        - name: CASSANDRA_CONTACT_POINT1
+          value: cassandra-db
         - name: JAVA_OPTS
           value: "-Dconfig.resource=endpoint-application-k8s.conf"
         image: shopping-cart:0.1.0
         name: endpoint
         ports:
         - containerPort: 8082
+        # akka remoting
         - name: remoting
           containerPort: 2552
           protocol: TCP
+        # external http
         - name: akka-mgmt-http
           containerPort: 8558
           protocol: TCP
+        - name: node-metrics
+          containerPort: 9001
         resources: {}
       restartPolicy: Always
+status: {}

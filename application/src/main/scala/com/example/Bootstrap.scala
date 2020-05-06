@@ -32,6 +32,7 @@ object Bootstrap extends App {
       if (cluster.selfMember.hasRole("k8s")) {
         AkkaManagement(system).start()
         ClusterBootstrap(system).start()
+        context.log.error("AKKA management and cluster bootstrap started for K8")
       }
 
       if (cluster.selfMember.hasRole("endpoint")) {

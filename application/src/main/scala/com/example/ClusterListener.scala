@@ -24,17 +24,17 @@ object ClusterListener {
         case ReachabilityChange(reachabilityEvent) =>
           reachabilityEvent match {
             case UnreachableMember(member) =>
-              ctx.log.info("Member detected as unreachable: {}", member)
+              ctx.log.error("Member detected as unreachable: {}", member)
             case ReachableMember(member) =>
-              ctx.log.info("Member back to reachable: {}", member)
+              ctx.log.error("Member back to reachable: {}", member)
           }
 
         case MemberChange(changeEvent) =>
           changeEvent match {
             case MemberUp(member) =>
-              ctx.log.info("Member is Up: {}", member.address)
+              ctx.log.error("Member is Up: {}", member.address)
             case MemberRemoved(member, previousStatus) =>
-              ctx.log.info("Member is Removed: {} after {}",
+              ctx.log.error("Member is Removed: {} after {}",
                 member.address, previousStatus)
             case _: MemberEvent => // ignore
           }
