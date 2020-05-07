@@ -6,11 +6,11 @@ spec:
   replicas: 3
   selector:
      matchLabels:
-       app: ArtifactStateCluster
+       app: CartCluster
   template:
     metadata:
       labels:
-        app: ArtifactStateCluster
+        app: CartCluster
         tag: clusternode
       annotations:
         prometheus.io/scrape: 'true'
