@@ -20,8 +20,8 @@ spec:
       serviceAccountName: endpoints-sa
       containers:
       - env:
-        - name: CASSANDRA_CONTACT_POINT1
-          value: cassandra-db
+        - name: CASSANDRA_CONTACT_POINT
+          value: cassandra
         - name: JAVA_OPTS
           value: "-Dconfig.resource=endpoint-application-k8s.conf"
         image: shopping-cart:0.1.0

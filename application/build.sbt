@@ -23,7 +23,7 @@ def ossDependencies : Seq[ModuleID] = {
     "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-typed" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-cassandra" % akkaCassandraVersion,
-    "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
+    //"org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
     "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
     "com.typesafe.akka" %% "akka-serialization-jackson" % akkaVersion,
