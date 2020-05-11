@@ -55,7 +55,8 @@ lazy val root = (project in file("."))
   .enablePlugins(MultiJvmPlugin).configs(MultiJvm)
   .settings(
     dockerBaseImage := "adoptopenjdk/openjdk8",
-    packageName in Docker := "shopping-cart",
+    packageName in Docker := "project-wuhu/shopping-cart",
+    dockerRepository := Some("gcr.io"),
     libraryDependencies ++= {
       ossDependencies
     },
