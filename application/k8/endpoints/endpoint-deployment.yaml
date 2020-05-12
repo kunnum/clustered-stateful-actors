@@ -21,10 +21,10 @@ spec:
       containers:
       - env:
         - name: CASSANDRA_CONTACT_POINT
-          value: cassandra
+          value: "10.128.0.6:9042"
         - name: JAVA_OPTS
           value: "-Dconfig.resource=endpoint-application-k8s.conf"
-        image: shopping-cart:0.1.0
+        image: gcr.io/project-wuhu/shopping-cart:0.1.0
         name: endpoint
         ports:
         - containerPort: 8082

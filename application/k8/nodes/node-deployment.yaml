@@ -18,7 +18,7 @@ spec:
       serviceAccountName: nodes-sa
       containers:
       - name: node
-        image: shopping-cart:0.1.0
+        image: gcr.io/project-wuhu/shopping-cart:0.1.0
         env:
         - name: HOSTNAME
           valueFrom:
@@ -26,7 +26,7 @@ spec:
                 apiVersion: v1
                 fieldPath: status.podIP
         - name: CASSANDRA_CONTACT_POINT
-          value: "cassandra:9042"
+          value: "10.128.0.6:9042"
         - name: JAVA_OPTS
           value: "-Dconfig.resource=cluster-application-k8s.conf"
         ports:
