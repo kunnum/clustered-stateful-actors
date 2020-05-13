@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: node
 spec:
-  replicas: 3
+  replicas: 8
   selector:
      matchLabels:
        app: CartCluster

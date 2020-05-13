@@ -18,14 +18,11 @@ class ShopingCartRoute(psCommandActor: ActorRef[ShardingEnvelope[ShoppingCartAct
   /*
     01. Split roles to endpoint and shard - Done
     02. Gatlin load test - Done
-    03. Docker based deployment - Done
-    04. K8 based deployment
-    05. NGIX load balancing
-    06. Get this on GKE
-    07. Write article
-    08. Look at additional support
-    09. CQRS
-    10. Load Balancer
+    03. Docker based local deployment - Done
+    04. Get this on GKE - Done
+    05. Write article
+    06. Look at additional support
+    07. CQRS
    */
 
   implicit val timeout: Timeout = 5.seconds
